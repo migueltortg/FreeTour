@@ -31,6 +31,16 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $file = $form['foto']->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move(
+                $this->getParameter('fotos_perfil'),
+                $fileName
+            );
+
+            $user->setfoto($fileName);
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
