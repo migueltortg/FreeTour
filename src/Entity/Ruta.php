@@ -29,9 +29,6 @@ class Ruta
     #[ORM\Column(length: 255)]
     private ?string $punto_inicio = null;
 
-    #[ORM\Column]
-    private array $Horario = [];
-
     public function getId(): ?int
     {
         return $this->id;
