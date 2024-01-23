@@ -16,7 +16,7 @@ class Informe
     #[ORM\Column(length: 255)]
     private ?string $imagen = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $observaciones = null;
 
     #[ORM\Column]
@@ -48,7 +48,7 @@ class Informe
         return $this->observaciones;
     }
 
-    public function setObservaciones(?string $observaciones): static
+    public function setObservaciones(string $observaciones): static
     {
         $this->observaciones = $observaciones;
 

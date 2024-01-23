@@ -16,10 +16,6 @@ class Ruta
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Localidad $codLocalidad = null;
-
     #[ORM\Column(length: 255)]
     private ?string $descripcion = null;
 
@@ -28,6 +24,9 @@ class Ruta
 
     #[ORM\Column(length: 255)]
     private ?string $punto_inicio = null;
+
+    #[ORM\Column]
+    private ?int $aforo = null;
 
     public function getId(): ?int
     {
@@ -42,18 +41,6 @@ class Ruta
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    public function getCodLocalidad(): ?Localidad
-    {
-        return $this->codLocalidad;
-    }
-
-    public function setCodLocalidad(?Localidad $codLocalidad): static
-    {
-        $this->codLocalidad = $codLocalidad;
 
         return $this;
     }
@@ -90,6 +77,18 @@ class Ruta
     public function setPuntoInicio(string $punto_inicio): static
     {
         $this->punto_inicio = $punto_inicio;
+
+        return $this;
+    }
+
+    public function getAforo(): ?int
+    {
+        return $this->aforo;
+    }
+
+    public function setAforo(int $aforo): static
+    {
+        $this->aforo = $aforo;
 
         return $this;
     }

@@ -13,44 +13,56 @@ class Valoracion
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $nota_guia = null;
-
-    #[ORM\Column]
-    private ?int $nota_ruta = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $comentario = null;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?UserTour $codReserva = null;
+
+    #[ORM\Column]
+    private ?int $notaGuia = null;
+
+    #[ORM\Column]
+    private ?int $notaRuta = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $comentario = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNotaGuia(): ?int
+    public function getCodReserva(): ?UserTour
     {
-        return $this->nota_guia;
+        return $this->codReserva;
     }
 
-    public function setNotaGuia(int $nota_guia): static
+    public function setCodReserva(UserTour $codReserva): static
     {
-        $this->nota_guia = $nota_guia;
+        $this->codReserva = $codReserva;
+
+        return $this;
+    }
+
+    public function getNotaGuia(): ?int
+    {
+        return $this->notaGuia;
+    }
+
+    public function setNotaGuia(int $notaGuia): static
+    {
+        $this->notaGuia = $notaGuia;
 
         return $this;
     }
 
     public function getNotaRuta(): ?int
     {
-        return $this->nota_ruta;
+        return $this->notaRuta;
     }
 
-    public function setNotaRuta(int $nota_ruta): static
+    public function setNotaRuta(int $notaRuta): static
     {
-        $this->nota_ruta = $nota_ruta;
+        $this->notaRuta = $notaRuta;
 
         return $this;
     }
@@ -63,18 +75,6 @@ class Valoracion
     public function setComentario(?string $comentario): static
     {
         $this->comentario = $comentario;
-
-        return $this;
-    }
-
-    public function getCodReserva(): ?UserTour
-    {
-        return $this->codReserva;
-    }
-
-    public function setCodReserva(UserTour $codReserva): static
-    {
-        $this->codReserva = $codReserva;
 
         return $this;
     }

@@ -14,28 +14,16 @@ class Tour
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $fecha_hora = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ruta $codRuta = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $fecha_hora = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFechaHora(): ?\DateTimeInterface
-    {
-        return $this->fecha_hora;
-    }
-
-    public function setFechaHora(\DateTimeInterface $fecha_hora): static
-    {
-        $this->fecha_hora = $fecha_hora;
-
-        return $this;
     }
 
     public function getCodRuta(): ?Ruta
@@ -46,6 +34,18 @@ class Tour
     public function setCodRuta(?Ruta $codRuta): static
     {
         $this->codRuta = $codRuta;
+
+        return $this;
+    }
+
+    public function getFechaHora(): ?\DateTimeInterface
+    {
+        return $this->fecha_hora;
+    }
+
+    public function setFechaHora(\DateTimeInterface $fecha_hora): static
+    {
+        $this->fecha_hora = $fecha_hora;
 
         return $this;
     }

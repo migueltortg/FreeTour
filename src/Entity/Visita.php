@@ -25,6 +25,10 @@ class Visita
     #[ORM\Column(length: 255)]
     private ?string $gps = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Localidad $codLocalidad = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +78,18 @@ class Visita
     public function setGps(string $gps): static
     {
         $this->gps = $gps;
+
+        return $this;
+    }
+
+    public function getCodLocalidad(): ?Localidad
+    {
+        return $this->codLocalidad;
+    }
+
+    public function setCodLocalidad(?Localidad $codLocalidad): static
+    {
+        $this->codLocalidad = $codLocalidad;
 
         return $this;
     }
