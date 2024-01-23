@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\RutaRepository;
+use App\Repository\VisitaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RutaRepository::class)]
-class Ruta
+#[ORM\Entity(repositoryClass: VisitaRepository::class)]
+class Visita
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,10 +16,6 @@ class Ruta
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Localidad $codLocalidad = null;
-
     #[ORM\Column(length: 255)]
     private ?string $descripcion = null;
 
@@ -27,10 +23,7 @@ class Ruta
     private ?string $foto = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $punto_inicio = null;
-
-    #[ORM\Column]
-    private array $Horario = [];
+    private ?string $gps = null;
 
     public function getId(): ?int
     {
@@ -45,18 +38,6 @@ class Ruta
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    public function getCodLocalidad(): ?Localidad
-    {
-        return $this->codLocalidad;
-    }
-
-    public function setCodLocalidad(?Localidad $codLocalidad): static
-    {
-        $this->codLocalidad = $codLocalidad;
 
         return $this;
     }
@@ -85,14 +66,14 @@ class Ruta
         return $this;
     }
 
-    public function getPuntoInicio(): ?string
+    public function getGps(): ?string
     {
-        return $this->punto_inicio;
+        return $this->gps;
     }
 
-    public function setPuntoInicio(string $punto_inicio): static
+    public function setGps(string $gps): static
     {
-        $this->punto_inicio = $punto_inicio;
+        $this->gps = $gps;
 
         return $this;
     }
