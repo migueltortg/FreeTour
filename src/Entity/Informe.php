@@ -22,6 +22,10 @@ class Informe
     #[ORM\Column]
     private ?int $recaudacion = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tour $codTour = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Informe
     public function setRecaudacion(int $recaudacion): static
     {
         $this->recaudacion = $recaudacion;
+
+        return $this;
+    }
+
+    public function getCodTour(): ?Tour
+    {
+        return $this->codTour;
+    }
+
+    public function setCodTour(Tour $codTour): static
+    {
+        $this->codTour = $codTour;
 
         return $this;
     }
