@@ -96,16 +96,4 @@ class Ruta
 
         return $this;
     }
-
-    public function getHorario(): array
-    {
-        return $this->Horario;
-    }
-
-    public function setHorario(array $Horario): static
-    {
-        $this->Horario = $Horario;
-
-        return $this;
-    }
 }
