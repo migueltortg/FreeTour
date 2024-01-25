@@ -12,6 +12,6 @@ class LogOutController extends AbstractController
     #[Route('/logout', name: 'app_logout')]
     public function logout():Response
     {
-        return new RedirectResponse($this->generateUrl('home'));
+        return new RedirectResponse($this->generateUrl('login'));
     }
 }
