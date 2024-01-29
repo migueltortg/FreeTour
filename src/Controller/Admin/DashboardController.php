@@ -5,10 +5,16 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use App\Entity\User;
+use App\Entity\Tour;
 use App\Entity\Ruta;
+use App\Entity\Visita;
+use App\Entity\Provincia;
+use App\Entity\Localidad;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -46,9 +52,24 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Usuarios');
         yield MenuItem::linkToCrud('User', 'fas fa-solid fa-user', User::class);
+        
         yield MenuItem::section('Rutas/Tour');
+        yield MenuItem::linkToCrud('Tour', 'fas fa-solid fa-code-merge', Tour::class);
         yield MenuItem::linkToCrud('Ruta', 'fas fa-solid fa-code-merge', Ruta::class);
+        yield MenuItem::linkToCrud('Visitas', 'fas fa-solid fa-camera-retro', Visita::class);
+
+        yield MenuItem::section('Ubicaciones');
+        yield MenuItem::linkToCrud('Localidad', 'fas fa-solid fa-map-pin', Localidad::class);
+        yield MenuItem::linkToCrud('Provincia', 'fas fa-regular fa-map', Provincia::class);
+
+
         yield MenuItem::section('Calendario Rutas');
 
+    }
+
+    public function configureUserMenu(UserInterface $user): UserMenu
+    {
+        return parent::configureUserMenu($user)
+            ->setAvatarUrl('fotos_perfil/'.$user->getFoto());    
     }
 }

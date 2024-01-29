@@ -19,7 +19,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $roles = ['ROLE_ADMIN','ROLE,USER','ROLE_GUIDE'];
+        $roles = ['ROLE_ADMIN','ROLE_USER','ROLE_GUIDE'];
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('nombre'),
@@ -30,7 +30,8 @@ class UserCrudController extends AbstractCrudController
             ->allowMultipleChoices(),
             ImageField::new('foto')
                 ->setBasePath('fotos_perfil/') 
-                ->setUploadDir('public/fotos_perfil/')           
+                ->setUploadDir('public/fotos_perfil/')
+                ->setUploadedFileNamePattern('[uuid].[extension]'),       
         ];
     }
 }
