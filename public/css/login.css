@@ -1,0 +1,17 @@
+*{
+    color: red;
+}
+
+body form{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+body form h1{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    text-align: center;
+}

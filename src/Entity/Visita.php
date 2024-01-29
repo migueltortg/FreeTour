@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VisitaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VisitaRepository::class)]
@@ -28,6 +30,14 @@ class Visita
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Localidad $codLocalidad = null;
+
+    #[ORM\ManyToMany(targetEntity: Ruta::class, mappedBy: 'visitas')]
+    private Collection $rutas;
+
+    public function __construct()
+    {
+        $this->rutas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +100,33 @@ class Visita
     public function setCodLocalidad(?Localidad $codLocalidad): static
     {
         $this->codLocalidad = $codLocalidad;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ruta>
+     */
+    public function getRutas(): Collection
+    {
+        return $this->rutas;
+    }
+
+    public function addRuta(Ruta $ruta): static
+    {
+        if (!$this->rutas->contains($ruta)) {
+            $this->rutas->add($ruta);
+            $ruta->addVisita($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRuta(Ruta $ruta): static
+    {
+        if ($this->rutas->removeElement($ruta)) {
+            $ruta->removeVisita($this);
+        }
 
         return $this;
     }

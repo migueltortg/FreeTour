@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RutaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RutaRepository::class)]
@@ -27,6 +29,14 @@ class Ruta
 
     #[ORM\Column]
     private ?int $aforo = null;
+
+    #[ORM\ManyToMany(targetEntity: Visita::class, inversedBy: 'rutas')]
+    private Collection $visitas;
+
+    public function __construct()
+    {
+        $this->visitas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +99,30 @@ class Ruta
     public function setAforo(int $aforo): static
     {
         $this->aforo = $aforo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Visita>
+     */
+    public function getVisitas(): Collection
+    {
+        return $this->visitas;
+    }
+
+    public function addVisita(Visita $visita): static
+    {
+        if (!$this->visitas->contains($visita)) {
+            $this->visitas->add($visita);
+        }
+
+        return $this;
+    }
+
+    public function removeVisita(Visita $visita): static
+    {
+        $this->visitas->removeElement($visita);
 
         return $this;
     }
