@@ -27,7 +27,7 @@ class VisitaCrudController extends AbstractCrudController
             TextField::new('nombre'),
             TextEditorField::new('descripcion'),
             ImageField::new('foto')
-            ->setBasePath('fotos_perfil/') 
+            ->setBasePath('fotos_visitas/') 
             ->setUploadDir('public/fotos_visitas/')
             ->setUploadedFileNamePattern('[uuid].[extension]'),
             FormField::addTab('Dirección'),

@@ -54,7 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('User', 'fas fa-solid fa-user', User::class);
         
         yield MenuItem::section('Rutas/Tour');
-        yield MenuItem::linkToCrud('Tour', 'fas fa-solid fa-code-merge', Tour::class);
+        yield MenuItem::linkToCrud('Tour', 'fas fa-solid fa-compass', Tour::class);
         yield MenuItem::linkToCrud('Ruta', 'fas fa-solid fa-code-merge', Ruta::class);
         yield MenuItem::linkToCrud('Visitas', 'fas fa-solid fa-camera-retro', Visita::class);
 
