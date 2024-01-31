@@ -21,6 +21,9 @@ class Tour
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $fecha_hora = null;
 
+    #[ORM\ManyToOne]
+    private ?User $guia = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Tour
     public function setFechaHora(\DateTimeInterface $fecha_hora): static
     {
         $this->fecha_hora = $fecha_hora;
+
+        return $this;
+    }
+
+    public function getGuia(): ?User
+    {
+        return $this->guia;
+    }
+
+    public function setGuia(?User $guia): static
+    {
+        $this->guia = $guia;
 
         return $this;
     }

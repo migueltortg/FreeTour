@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use Doctrine\ORM\QueryBuilder;
+
 
 
 class TourCrudController extends AbstractCrudController
@@ -24,6 +26,12 @@ class TourCrudController extends AbstractCrudController
             ->setLabel("Fecha y Hora"),
             AssociationField::new('codRuta')
             ->setLabel("Ruta"),
+            AssociationField::new('guia')
+            ->setLabel("Guia")
+            ->setQueryBuilder(function (QueryBuilder $qb) {
+                $qb->andWhere("entity.roles like :role")
+                ->setParameter('role', "%ROLE_GUIDE%");
+            }),
 
         ];
     }

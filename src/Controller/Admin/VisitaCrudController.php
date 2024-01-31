@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Visita;
+use App\Entity\Coordenada;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -22,6 +23,7 @@ class VisitaCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+
         return [
             FormField::addTab('Información'),
             TextField::new('nombre'),
@@ -31,8 +33,8 @@ class VisitaCrudController extends AbstractCrudController
             ->setUploadDir('public/fotos_visitas/')
             ->setUploadedFileNamePattern('[uuid].[extension]'),
             FormField::addTab('Dirección'),
-            TextField::new('GPS')
-            ->setLabel("Coordenadas"),
+            TextField::new('gps')
+            ->setLabel("Coordenadas X"),
             AssociationField::new('codLocalidad')
             ->setLabel("Localidad"),
 
