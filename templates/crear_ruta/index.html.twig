@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Ruta{% endblock %}
+
+{% block stylesheets %}
+    <!-- Cargo CSS jquery-UI -->
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.structure.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.theme.css') }}">
+
+    <!-- Cargo jquery y jquery-UI-->
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+
+    <script src="{{ asset('js/crearRuta.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1>Crear Ruta</h1>
+{% endblock %}
