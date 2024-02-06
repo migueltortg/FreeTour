@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LogOutController extends AbstractController
 {
-    #[Route('/logout', name: 'app_logout')]
+    #[Route('/logout', name: 'logout')]
     public function logout():Response
     {
         return new RedirectResponse($this->generateUrl('login'));

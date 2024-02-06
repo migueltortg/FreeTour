@@ -1,15 +1,215 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}FreeTour{% endblock %}
+
+
+{% block stylesheets %}
+    <script src="{{asset('js/home.js')}}"></script>
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <!-- Navigation-->
+    <style>
+        .custom-combobox {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-combobox-toggle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin-left: -1px;
+            padding: 0;
+        }
+        .custom-combobox-input {
+            margin: 0;
+            padding: 5px 10px;
+        }
+    </style>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#page-top" id="tit">FreeTour</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link navOpt" href="#services">Tours</a></li>
+                        <li class="nav-item"><a class="nav-link navOpt" href="#about">Lugares</a></li>
+                        
+                        {% if app.user %}
+                            {% for rol in app.user.roles %}
+                                {% if rol=="ROLE_USER" %}
+                                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Mis Tours</a></li>
+                                {% endif %}
+                                {% if rol=="ROLE_ADMIN" %}
+                                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Administración</a></li>
+                                {% endif %}
+                                {% if rol=="ROLE_GUIDE" %}
+                                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Calendario Tours</a></li>
+                                {% endif %}
 
-<div class="example-wrapper">
-    
-    <a href="{{ path('app_logout') }}">Cerrar Sesión</a>
-</div>
+                            {% endfor %}
+                            <li class="nav-item"><a class="nav-link navOpt" href="{{path('logout')}}">Cerrar Sesión</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link navOpt" href="{{path('login')}}">Iniciar Sesión</a></li>
+                            <li class="nav-item"><a class="nav-link navOpt" href="/register">Registro</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 h-100">
+                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-8 align-self-end">
+                        <h1 class="text-white font-weight-bold" id="textoBusqueda">Los mejores tours por España</h1>
+                        <hr class="divider" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <div class="ui-widget" id="barraBusqueda">
+                            <select id="combobox">
+                                <option value>Busca por localidad...</option>
+                                <option value="Jaén">Jaén</option>
+                                <option value="Granada">Granada</option>
+                                <option value="Madrid">Madrid</option>
+                                <option value="Barcelona">Barcelona</option>
+                                <option value="Cádiz">Cádiz</option>
+                                <option value="Valencia">Valencia</option>
+                                <option value="Bilbao">Bilbao</option>
+                            </select>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- About-->
+        <section class="page-section bg-primary" id="about">
+            <div class="container my-5">
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ asset('fotos_visitas/88f55ef3-4bad-4e39-84a3-a7fec77d2831.png') }}" class="d-block mx-auto imgCarusel" alt="1">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Catedral de Jaén</h5>
+                            <p>Principal monumento de la ciudad.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset('fotos_visitas/05c1f20c-049b-4756-8c19-1dd147641cea.png') }}" class="d-block mx-auto imgCarusel" alt="2">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Baños árabes.</h5>
+                            <p>Baños de no se que epoca muy chulos.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset('fotos_visitas/6f3cad02-8465-4b99-91a4-89b4da0b385b.png') }}" class="d-block mx-auto imgCarusel" alt="3">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Third slide label</h5>
+                            <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        </section>
+        <!-- Contact-->
+        <section class="page-section" id="contact">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6 text-center">
+                        <h2 class="mt-0">Contactanos!!</h2>
+                        <hr class="divider" />
+                        <p class="text-muted mb-5">Responderemos tu duda/sugerencia/queja lo antes posible!</p>
+                    </div>
+                </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+                    <div class="col-lg-6">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Nombre completo:</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Correo Electronico</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Numero de telefono:</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-4 text-center mb-5 mb-lg-0">
+                        <i class="bi-phone fs-2 mb-3 text-muted"></i>
+                        <div>+34 XXXXXXXXX</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="bg-light py-5">
+            <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2023 - FreeTour</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- SimpleLightbox plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
 {% endblock %}
