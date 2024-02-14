@@ -5,10 +5,11 @@ namespace App\Entity;
 use App\Repository\VisitaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VisitaRepository::class)]
-class Visita
+class Visita implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -134,5 +135,16 @@ class Visita
     public function __toString()
     {
         return $this->getNombre();
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'id' => $this->getId(),
+            'codLocalidad'=> $this->getCodLocalidad(),
+            'nombre'=> $this->getNombre(),
+            'descripcion' => $this->getDescripcion(),
+            'foto' => $this->getFoto(),
+            'gps' => $this->getGps()
+        ];
     }
 }

@@ -1,0 +1,21 @@
+#visitasDisponibles,#visitasAsignadas{
+    height: 100%;
+    overflow-y: scroll;
+    list-style: none;
+}
+
+.visitaItem
+{
+    margin: 5%;
+}
+
+.visitas-box{
+    height: 40vh;
+    border: 2px solid red;
+}
+
+#visitas-container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}

@@ -34,13 +34,13 @@ class Ruta
     #[ORM\ManyToMany(targetEntity: Visita::class, inversedBy: 'rutas')]
     private Collection $visitas;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'date',nullable:true)]
     private ?\DateTimeInterface $fechaInicio = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: 'date',nullable:true)]
     private ?\DateTimeInterface $fechaFin = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $programacion = [];
 
     public function __construct()

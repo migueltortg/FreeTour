@@ -8,6 +8,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
 
 class RutaCrudController extends AbstractCrudController
@@ -26,4 +29,17 @@ class RutaCrudController extends AbstractCrudController
             AssociationField::new('visitas'),
         ];
     }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                return $action->linkToRoute('crearRuta', []);
+            })
+            // ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+            //     return $action->linkToRoute('create-route', ["id"=>"hola"]);
+            // })
+            ;
+    }
+
 }

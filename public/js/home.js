@@ -20,8 +20,12 @@ $(function() {
             this.input = $( "<input>" )
                 .appendTo( this.wrapper )
                 .val( value )
-                .attr( "title", "" )
                 .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+                .attr( "title", "" )
+                .attr( "id", "botonEncontrar" )
+                .attr("placeholder","Busca tours en tu ciudad")
+
+                
                 .autocomplete({
                     delay: 0,
                     minLength: 0,
@@ -55,6 +59,8 @@ $(function() {
             // Utilizamos un span en lugar de un anchor para contener el ícono
             var $button = $("<span>")
                 .attr("tabIndex", -1)
+                .attr("id", "verTodo")
+
                 .attr("title", "Ver Ciudades")
                 .appendTo(this.wrapper)
                 .button({
@@ -64,7 +70,8 @@ $(function() {
                     text: false
                 })
                 .removeClass("ui-corner-all")
-                .addClass("ui-button ui-widget ui-button-icon-only custom-combobox-toggle ui-corner-right")
+                .addClass("ui-button ui-widget custom-combobox-toggle ui-corner-right")
+                .append(" ▼")
                 .on("mousedown", function() {
                     wasOpen = input.autocomplete("widget").is(":visible");
                 })
