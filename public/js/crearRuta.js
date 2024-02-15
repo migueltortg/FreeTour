@@ -2,7 +2,7 @@ $(function(){
 
     $("#crearRutaBtn").click(function(){
         if(validar()){
-            crearRutaAPI(crearRutaJSON());
+            crearRutaAPI(crearRutaJSON(),false);
         }else{
             console.log("ERROR");
         }
@@ -89,10 +89,10 @@ $(function(){
 
 
     $("#crearRutaTourBtn").click(function(){
-        //LLAMADA API
+        crearRutaAPI(crearRutaJSON(),true);
     });
 
-    function crearRutaAPI(json) {
+    function crearRutaAPI(json,tour) {
         var jsonData = JSON.stringify(json);
         
         var file = $('input[type="file"][id^="images-"]')[0].files[0];
@@ -100,7 +100,8 @@ $(function(){
         var formData = new FormData();
         formData.append('ruta', jsonData);
         formData.append('foto', file);
-    
+        formData.append('tour',tour);
+
         $.ajax({
             url: '/crearRutaAPI',
             type: 'POST',
@@ -108,6 +109,7 @@ $(function(){
             processData: false,
             contentType: false,
             success: function(data) {
+                console.log(data);
                 $("<p>").text("Ruta Creada").dialog({
                     modal:true,
                     draggable: false,
