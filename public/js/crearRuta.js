@@ -1,24 +1,13 @@
 $(function(){
-    $("#modal").dialog({
-        autoOpen: true,
-        modal: true,
-        draggable: false,
-        position: { my: "top", at: "top", of: window },
-        width:"90%",
-        heigth:"99vh",
-        buttons: {
-            "Crear Ruta": crearRuta,
-            "Crear Ruta y Generar Tours": crearRutaTours
-        }
-    });
 
-    function crearRuta(){
-        if(!validar()){
+    $("#crearRutaBtn").click(function(){
+        if(validar()){
             crearRutaAPI(crearRutaJSON());
         }else{
             console.log("ERROR");
         }
-    }
+    });
+
     cargarVisitas();
 
     function cargarVisitas(){
@@ -98,6 +87,11 @@ $(function(){
         return JSON.stringify(programacion);
     }
 
+
+    $("#crearRutaTourBtn").click(function(){
+        //LLAMADA API
+    });
+
     function crearRutaAPI(json) {
         var jsonData = JSON.stringify(json);
         
@@ -114,8 +108,13 @@ $(function(){
             processData: false,
             contentType: false,
             success: function(data) {
-                console.log(data);  
-                alert("TODO OK");  
+                $("<p>").text("Ruta Creada").dialog({
+                    modal:true,
+                    draggable: false,
+                    position: { my: "top", at: "top", of: $(".main-content") },
+                    width:"20%",
+                    heigth:"10vh",
+                }); 
             },
             error: function(error) {
                 console.log('Error al obtener los datos de la API:', error);
@@ -128,7 +127,7 @@ $(function(){
     function validar(){
         var validado=true;
 
-        if(comprobarTab1()){
+        if(!comprobarTab1()){
             validado=false;
         }
 
