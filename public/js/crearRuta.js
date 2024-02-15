@@ -310,13 +310,16 @@ $(function(){
     });
 
     $("#fecha").on("change",function(){
+        fechaIni=$("#fecha").val().split(" ")[0].split("/");
+        fechaFin=$("#fecha").val().split(" ")[2].split("/");
+
         $('#fechaPr').daterangepicker({
             locale: {
                 cancelLabel: 'Clear',
                 format: 'DD/MM/YYYY',
             },
-            minDate:new Date($("#fecha").val().split(" ")[0]),
-            maxDate:new Date($("#fecha").val().split(" ")[2]),
+            minDate:new Date(fechaIni[2], fechaIni[1], fechaIni[0]),
+            maxDate:new Date(fechaFin[2], fechaFin[1], fechaFin[0]),
         });
     });
 });
