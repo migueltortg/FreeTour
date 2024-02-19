@@ -108,12 +108,12 @@
                           <div id="formulario">
                             <label for="hora">Hora:</label>
                             <input type="time" id="hora" name="hora">
-                            <label for="personas">Guia</label>
+                            <label for="guias">Guia</label>
                   
-                            <select id="personas" name="personas">
-                              <option value="MAnolos">MAnolos</option>
-                              <option value="Diego">Diego</option>
-                              <option value="TuPae">TuPae</option>
+                            <select id="guias" name="personas">
+                              {% for guia in guias %}
+                                    <option value="{{guia.id}}">{{guia.email}}</option>
+                                {% endfor %}
                             </select>
                           </div>
                           <button id="btnAñadir">Añadir</button>

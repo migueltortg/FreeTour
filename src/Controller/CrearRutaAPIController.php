@@ -14,6 +14,7 @@ use DateTime;
 use DateInterval;
 use App\Entity\Tour;
 use App\Entity\User;
+use App\Service\crearTour;
 
 class CrearRutaAPIController extends AbstractController
 {
@@ -25,7 +26,7 @@ class CrearRutaAPIController extends AbstractController
     }
 
     #[Route('/crearRutaAPI', name: 'crearRutaAPI')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, crearTour $crearTour): Response
     {
         $rutaArray = json_decode($_POST['ruta'], true); 
 
@@ -65,40 +66,9 @@ class CrearRutaAPIController extends AbstractController
         $entityManager->persist($ruta);
         $entityManager->flush();
 
-        $diasSemana = array(
-            '1' => 'L',
-            '2' => 'M',
-            '3' => 'X',
-            '4' => 'J',
-            '5' => 'V',
-            '6' => 'S',
-            '7' => 'D'
-        );
 
-        if($_POST['tour']){
-            //ARRAY DE OBJETOS CON PROGRAMACIONES
-            foreach ($ruta->getProgramacion() as $programacion) {
-                $rangoFechas = explode(" - ", $programacion['rangoFecha']);
-                $fecha = DateTime::createFromFormat('d/m/Y', str_replace('\/', '/', $rangoFechas[0]));
-                $fechaFin = DateTime::createFromFormat('d/m/Y', str_replace('\/', '/', $rangoFechas[1]));
-                $intervalo = new DateInterval('P1D'); 
-                $dias=explode(",", $programacion['dias']);
-
-                while ( $fecha<= $fechaFin) {
-                    if(array_search($diasSemana[$fecha->format('N')],$dias)!==false){
-
-                        $tour=new Tour();
-                        $tour->setCodRuta($ruta);
-                        $fechaHora = DateTime::createFromFormat('Y-m-d H:i', $fecha->format('Y-m-d') . " " . $programacion['hora']);
-                        $tour->setFechaHora($fechaHora);
-                        $tour->setGuia($entityManager->getRepository(User::class)->findById("7")[0]);
-                        $entityManager->persist($tour);
-                    }
-                    $fecha->add($intervalo);
-                }
-                $entityManager->flush();
-            }
-            return new Response("Tours generados");
+        if($_POST['tour']=="true"){
+            return $crearTour->crear($ruta,$_POST['guia']);
         }else{
             return new Response("RUTA SOLO");
         }

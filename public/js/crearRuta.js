@@ -101,6 +101,7 @@ $(function(){
         formData.append('ruta', jsonData);
         formData.append('foto', file);
         formData.append('tour',tour);
+        formData.append('guia',$("#guias").val());
 
         $.ajax({
             url: '/crearRutaAPI',
