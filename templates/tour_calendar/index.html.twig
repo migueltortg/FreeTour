@@ -1,0 +1,29 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block title %}Calendario Tours{% endblock %}
+
+{% block stylesheet %}
+    <meta charset='utf-8' />
+{% endblock %}
+
+{% block head_javascript %}
+    <script src="{{asset('js/jquery-3.7.1.js')}}"></script>
+    <script src="{{asset('js/jquery-ui.js')}}"></script>
+    <script src="{{asset('js/calendarTour.js')}}"></script>
+    <link href="{{asset("css/jquery-ui.css")}}" rel="stylesheet" />
+    <script src="{{asset('js/jquery.richtext.min.js')}}"></script>
+    <script src="{{asset('js/image-uploader.min.js')}}"></script>
+    
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js'></script>
+    <script>
+    
+    </script>
+{% endblock %}
+
+{% block main %}
+    <h1>Calendario de Tours</h1>
+    
+    <div id='calendar'></div>
+    
+{% endblock %}

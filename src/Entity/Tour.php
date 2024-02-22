@@ -64,4 +64,13 @@ class Tour
 
         return $this;
     }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'id' => $this->getId(),
+            'ruta'=> $this->getCodRuta(),
+            'fecha_hora'=> $this->getFechaHora(),
+            'guia' => $this->getGuia()
+        ];
+    }
 }

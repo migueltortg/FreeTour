@@ -68,8 +68,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Provincia', 'fas fa-regular fa-map', Provincia::class);
 
 
-        yield MenuItem::section('Calendario Rutas');
-
+        yield MenuItem::section('Calendario Tours');
+        yield MenuItem::linkToRoute('Calendario', 'fa fa-calendar', 'tourCalendar');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu

@@ -172,4 +172,18 @@ class Ruta
 
         return $this;
     }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'id' => $this->getId(),
+            'nombre'=> $this->getNombre(),
+            'descripcion'=> $this->getDescripcion(),
+            'foto' => $this->getFoto(),
+            'punto_inicio' => $this->getPuntoInicio(),
+            'aforo' => $this->getAforo(),
+            'fecha_incio' => $this->getFechaInicio(),
+            'fecha_incio' => $this->getFechaFin(),
+            'programacion' => $this->getProgramacion(),
+        ];
+    }
 }

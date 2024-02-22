@@ -21,6 +21,13 @@ class TourRepository extends ServiceEntityRepository
         parent::__construct($registry, Tour::class);
     }
 
+    public function buscarID($codTourId){
+        return $this->createQueryBuilder('t')
+            ->where('t.id = :codTourId')
+            ->setParameter('codTourId', $codTourId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return Tour[] Returns an array of Tour objects
 //     */
