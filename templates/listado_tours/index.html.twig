@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista Tours{% endblock %}
+
+{% block body %}
+    <style>
+        main{
+            margin-top:5%;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#page-top" id="tit">FreeTour</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('listado_tours')}}">Tours</a></li>
+                    <li class="nav-item"><a class="nav-link navOpt" href="#about">Lugares</a></li>
+                    
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol=="ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Administración</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIDE" %}
+                                <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Calendario Tours</a></li>
+                            {% endif %}
+
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link navOpt" href="{{path('logout')}}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link navOpt" href="{{path('login')}}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link navOpt" href="/register">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                
+                {% for ruta in rutas %}
+                    <div class="col" id="{{ruta.id}}">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top" src="{{ asset('fotos_rutas/' ~ ruta.foto) }}" alt="Imagen" width="100%" height="225">
+                            <div class="card-body">
+                                <p class="card-text">{{ruta.nombre}} <br> {{ruta.descripcion | raw}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Reservar</button>
+                                    </div>
+                                    <small class="text-body-secondary">{{ruta.visitas[0].codLocalidad.codProvincia.nombre}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+{% endblock %}
