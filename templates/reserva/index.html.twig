@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reserva {{ruta.nombre}}{% endblock %}
+
+{% block body %}
+    <script>
+        function reservar(ev,idUser, idTour) {
+            ev.preventDefault();
+
+            console.log(idUser);
+            console.log(idTour);
+            console.log();
+
+            var dialogDiv = $("<div>");
+            dialogDiv.append('<label for="numberInput">Número de Asistentes:</label>');
+            dialogDiv.append('<input type="number" id="numberInput">');
+
+            dialogDiv.dialog({
+                modal: true,
+                position: { my: "center", at: "center", of: window },
+                resizable: false,
+                draggable: false, 
+                buttons: {
+                    "Reservar": function() {
+                        var numeroReserva = $("#numberInput").val();
+                        
+                        var formData = new FormData();
+                        formData.append('idUser', idUser);
+                        formData.append('idTour', idTour);
+                        formData.append('fechaReserva',new Date());
+                        formData.append('numAsistentes',numeroReserva);
+
+                        $.ajax({
+                            url: '/reservarAPI',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                                console.log(data);
+                                if(data=="AFORO COMPLETO"){
+                                    alert("El numero de asistentes que has indicado sobrepasa el aforo");
+                                }else{
+                                    alert("RESERVA HECHA");
+                                }
+                            },
+                            error: function(error) {
+                                console.log('Error al obtener los datos de la API:', error);
+                            } 
+                        });
+
+                        $(this).dialog("close");
+                    },
+                    "Cancelar": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    $(this).dialog("destroy").remove();
+                }
+            });
+
+        }
+    </script>
+
+    <main>
+        <div>
+            <h1>{{ruta.nombre}}</h1>
+            <h4>{{ruta.descripcion | raw}}</h4>
+            <img src="{{ asset('fotos_rutas/' ~ ruta.foto) }}" alt="Imagen" width="20%" height="auto">
+        </div>
+        <div>
+            <h3>Tours Disponibles</h3>
+            
+            <div class="row">
+            {% set previous_date = null %}
+            {% for key, tour in tours %}
+                {% set tour_date = tour.FechaHora | date('d-m-Y') %}
+                {% if tour_date != previous_date %}
+                    {% if previous_date is not null %}
+                        </div>
+                    {% endif %}
+                    <div class="col"> 
+                        <h5>{{ tour_date }}</h5>
+                    </div>
+                    <div class="row">
+                {% endif %}
+                <div class="col-2">
+                    <button onclick="reservar(event, {{user.id}}, '{{ tour.id}}')">{{ tour.FechaHora | date('d-m-Y H:i') }}</button>
+                </div>
+                {% set previous_date = tour_date %}
+            {% endfor %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -36,13 +36,13 @@ class RutaVisitaRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?RutaVisita
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    // public function aforo($idTour): ?int
+    // {
+    //     return $this->createQueryBuilder('ut')
+    //         ->select('SUM(ut.columnaDeseada) AS total')
+    //         ->andWhere('ut.tour = :idTour')
+    //         ->setParameter('idTour', $idTour)
+    //         ->getQuery()
+    //         ->getSingleScalarResult();
+    // }
 }

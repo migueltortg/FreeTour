@@ -8,6 +8,12 @@
             margin-top:5%;
         }
     </style>
+    <script>
+        function reservar(idRuta) {
+            window.location.href = "/reservar/" + idRuta;
+        }
+    </script>
+    
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="#page-top" id="tit">FreeTour</a>
@@ -53,7 +59,7 @@
                                 <p class="card-text">{{ruta.nombre}} <br> {{ruta.descripcion | raw}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Reservar</button>
+                                        <button type="button" onclick="reservar({{ruta.id}})" class="btn btn-sm btn-outline-secondary">Reservar</button>
                                     </div>
                                     <small class="text-body-secondary">{{ruta.visitas[0].codLocalidad.codProvincia.nombre}}</small>
                                 </div>
