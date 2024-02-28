@@ -39,7 +39,7 @@
                         {% if app.user %}
                             {% for rol in app.user.roles %}
                                 {% if rol=="ROLE_USER" %}
-                                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Mis Tours</a></li>
+                                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('mis_tours')}}">Mis Tours</a></li>
                                 {% endif %}
                                 {% if rol=="ROLE_ADMIN" %}
                                     <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Administración</a></li>

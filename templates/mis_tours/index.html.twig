@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mis Tours{% endblock %}
+
+{% block body %}
+    <style>
+        main{
+            margin-top:8%;
+        }
+    </style>
+    <script>
+        function cancelar(boton){
+            var formData = new FormData();
+            formData.append('idReserva', boton.parentNode.id);
+
+            $.ajax({
+                url: '/cancelarReserva',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data);
+                    location.reload();
+                },
+                error: function(error) {
+                    console.log('Error al obtener los datos de la API:', error);
+                } 
+            });
+        }
+
+        function valorar(boton) {
+            var dialogDiv = $("<div>");
+            dialogDiv.append('<label for="notaGuia">Nota Guia:</label>');
+            dialogDiv.append('<input type="number" id="notaGuia">')
+            dialogDiv.append('<br>');
+            dialogDiv.append('<label for="notaRuta">Nota Ruta:</label>');
+            dialogDiv.append('<input type="number" id="notaRuta">');
+            dialogDiv.append('<br>');
+            dialogDiv.append('<label for="comentarios">Comentarios:</label>');
+            dialogDiv.append('<textarea id="comentarios" name="comentarios" rows="4" cols="50"></textarea>');
+
+            dialogDiv.dialog({
+                modal: true,
+                position: { my: "center", at: "center", of: window },
+                resizable: false,
+                draggable: false, 
+                width:"auto",
+                buttons: {
+                    "Valorar": function() {
+                        var notaGuia=$("#notaGuia").val();
+                        var notaRuta=$("#notaRuta").val();
+                        var comentarios=$("#comentarios").val();
+
+                        var formData = new FormData();
+                        formData.append('notaGuia', notaGuia);
+                        formData.append('notaRuta', notaRuta);
+                        formData.append('comentarios',comentarios);
+                        formData.append('idReserva',boton.parentNode.id);
+
+                        $.ajax({
+                            url: '/valorarReserva',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                                console.log(data);
+                                if(data=="YA EXISTE UNA VALORACION"){
+                                    alert("YA EXISTE UNA VALORACION DE ESTA RESERVA");
+                                }else{
+                                    alert("VALORACION HECHA");
+                                }
+                            },
+                            error: function(error) {
+                                console.log('Error al obtener los datos de la API:', error);
+                            } 
+                        });
+                    },
+                    "Cancelar": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    $(this).dialog("destroy").remove();
+                }
+            });
+        }
+    </script>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#page-top" id="tit">FreeTour</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('listado_tours')}}">Tours</a></li>
+                    <li class="nav-item"><a class="nav-link navOpt" href="#about">Lugares</a></li>
+                    
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol=="ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link navOpt" href="{{path('mis_tours')}}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Administración</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIDE" %}
+                                <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Calendario Tours</a></li>
+                            {% endif %}
+
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link navOpt" href="{{path('logout')}}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link navOpt" href="{{path('login')}}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link navOpt" href="/register">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div>
+            <h1>MIS TOURS</h1>
+        </div>
+        <div>
+            {% for tour in tourGuias %}
+                <div id="Tour{{tour.id}}">
+                    <h3>{{tour.codRuta.nombre}}</h3>
+                    <h5>{{tour.FechaHora|date('d-m-Y H:i:s')}}</h5>
+                    {% set fechaTour = tour.FechaHora|date("Y-m-d H:i:s") %}
+                    {% set fecha30MinDespues = fechaTour|date_modify('+30 minutes')|date("Y-m-d H:i:s") %}
+                    {% set fechaActual = "now"|date("Y-m-d H:i:s") %}
+
+                    {% if fechaActual >= fechaTour and fechaActual < fecha30MinDespues %}
+                        <!-- Hacer algo si la fecha actual está dentro del rango -->
+                        <button>Pasar Lista</button>
+                    {% elseif fechaActual > fecha30MinDespues %}
+                        <!-- Hacer algo si la fecha actual está fuera del rango -->
+                        <button>Informe</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            {% for reserva in reservas %}
+                <div id="{{reserva.id}}">
+                    <h3>{{reserva.codTour.codRuta.nombre}}</h3>
+                    <h5>{{reserva.codTour.FechaHora|date('d-m-Y H:i:s')}}</h5>
+                    {% set fechaTour = reserva.codTour.FechaHora|date("Y-m-d H:i:s") %}
+                    {% set fecha30MinDespues = fechaTour|date_modify('+30 minutes')|date("Y-m-d H:i:s") %}
+                    {% set fechaActual = "now"|date("Y-m-d H:i:s") %}
+                    
+                    {% if 'ROLE_USER' in app.user.roles %}
+                        {% if fechaActual <= fechaTour %}<!-- <= -->
+                                <button onclick="valorar(this)">Valorar</button>
+                                <!-- <button onclick="cancelar(this)">Cancelar Reserva</button> -->
+                        {% else %}
+                            <button onclick="valorar(this)">Valorar</button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}
