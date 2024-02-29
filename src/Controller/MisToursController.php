@@ -19,4 +19,13 @@ class MisToursController extends AbstractController
             'tourGuias' => $entityManager->getRepository(Tour::class)->findBy(['guia' => $this->getUser()->getId()])
         ]);
     }
+
+    #[Route('mis_tours/pasar_lista/{idTour}', name: 'app_pasar_lista')]
+    public function pasarLista(int $idTour,EntityManagerInterface $entityManager): Response
+    {
+        return $this->render('pasar_lista/index.html.twig', [
+            'usersReserva' =>  $entityManager->getRepository(UserTour::class)->findBy(['codTour' => $idTour]),
+            'idTour' => $idTour,
+        ]);
+    }
 }

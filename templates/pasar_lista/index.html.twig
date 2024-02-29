@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pasar Lista{% endblock %}
+
+{% block body %}
+    <style>
+        main{
+            margin-top:8%;
+        }
+    </style>
+    <script>
+        function pasarlista(ev,idTour){
+            ev.preventDefault();
+            user=$("input");
+
+            var arrayAsistentes=[];
+            for(var i=0;i<user.length;i++){
+                arrayAsistentes.push($(user[i]).val());
+            }
+            console.log(arrayAsistentes);
+
+            var formData = new FormData();
+            formData.append('idTour', idTour);
+            formData.append('arrayAsistentes', arrayAsistentes);
+
+            $.ajax({
+                url: '/pasarListaAPI',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data);
+                    window.location.href = "http://localhost:8000/mis_tours";
+
+                },
+                error: function(error) {
+                    console.log('Error al obtener los datos de la API:', error);
+                } 
+            });
+        }
+    </script>
+    <main>
+        {% for user in usersReserva %}
+            <label for="{{user.id}}">{{user.codUser.email}}</label>
+            <input type="number" id="{{user.id}}" max="{{user.NumGenteReserva}}" min="0"></input>
+        {% endfor %}
+        <button onclick="pasarlista(event,{{idTour}})">Pasar Lista</button>
+    </main>
+{% endblock %}

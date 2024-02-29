@@ -6,6 +6,7 @@
 parameters:
     fotos_perfil: '%kernel.project_dir%/public/fotos_perfil'
     fotos_rutas: '%kernel.project_dir%/public/fotos_rutas'
+    fotos_tours: '%kernel.project_dir%/public/fotos_tours'
 services:
     # default configuration for services in *this* file
     _defaults:
