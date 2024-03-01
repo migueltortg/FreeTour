@@ -282,14 +282,54 @@ $(function(){
         agregarFila();
     });
 
+    function eliminarFila(ev,fila){
+        ev.preventDefault();
+        fila.remove();
+    }
+
+    function editarFila(ev, fila) {
+        ev.preventDefault();
+    
+        var celdas = fila.find('td');
+        
+        celdas.each(function(index) {
+            if (index === celdas.length - 1) { 
+                $(this).html('<button class="guardarBTN">Guardar</button>');
+            } else {
+                var texto = $(this).text();
+                var input = $('<input>').val(texto);
+                $(this).html(input);
+            }
+        });
+    
+        fila.find('.guardarBTN').click(function() {
+            fila.find('td').each(function(index) {
+                if (index !== celdas.length - 1) { 
+                    var valorInput = $(this).find('input').val(); 
+                    $(this).text(valorInput);
+                }
+            });
+            
+            fila.find('td:last-child').html("<button class='editarBTN'>Editar</button><button class='eliminarBTN'>Eliminar</button>");
+        });
+    }
+
     function agregarFila() {
         var rangoFecha = $("#fechaPr").val();
         var dias = obtenerDiasSeleccionados();
         var hora = $("#hora").val();
-        var persona = $("#personas").val();
-  
-        var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td></tr>";
+        var persona = $("#guias").val();
+    
+        var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td><td><button class='editarBTN'>Editar</button><button class='eliminarBTN'>Eliminar</button></td></tr>";
         $("#horarios tbody").append(fila);
+
+        $("#horarios tbody tr:last-child .eliminarBTN").click(function(event) {
+            eliminarFila(event, $(this).closest("tr"));
+        });
+
+        $("#horarios tbody tr:last-child .editarBTN").click(function(event) {
+            editarFila(event, $(this).closest("tr"));
+        });
     }
   
     function obtenerDiasSeleccionados() {

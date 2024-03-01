@@ -3,6 +3,8 @@
 {% block title %}Lista Tours{% endblock %}
 
 {% block body %}
+<script src="{{asset('js/jquery-3.7.1.js')}}"></script>
+
     <style>
         main{
             margin-top:5%;
@@ -12,12 +14,47 @@
         function reservar(idRuta) {
             window.location.href = "/reservar/" + idRuta;
         }
+
+        $(function(){
+            $('#selectLocalidad').change(function buscar(){
+                if($("#selectLocalidad").val()!==""){
+                    var formData = new FormData();
+                    formData.append('nombreloc', $("#selectLocalidad").val());
+
+                    $.ajax({
+                        url: '/obtenerlocAPI',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            window.location.href = "http://localhost:8000/listadoTours/localidad/"+data;
+                        },
+                        error: function(error) {
+                            console.log('Error al obtener los datos de la API:', error);
+                        } 
+                    });
+                }
+            });
+        });
+        
+        
+        
     </script>
     
     <main>
         <div class="album py-5 bg-body-tertiary">
+            
             <div class="container">
-
+            <div>
+                <label>Localidad: </label>
+                <select id="selectLocalidad">
+                    <option value=""></option>
+                    <option value="Jaén">Jaén</option>
+                    <option value="Granada">Granada</option>
+                    <option value="Pegalajar">Pegalajar</option>
+                </select>
+            <div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 
                 {% for ruta in rutas %}
