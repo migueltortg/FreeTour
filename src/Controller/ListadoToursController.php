@@ -19,4 +19,23 @@ class ListadoToursController extends AbstractController
             'rutas' => $entityManager->getRepository(Ruta::class)->findAll(),
         ]);
     }
+
+    #[Route('/listadoTours/localidad/{loc}', name: 'listado_toursLoc')]
+    public function porLoc(EntityManagerInterface $entityManager,$loc): Response
+    {
+        $query = $entityManager->createQuery(
+            'SELECT DISTINCT r FROM App\Entity\Ruta r
+            JOIN r.visitas v
+            WHERE v.codLocalidad = :localidad'
+        );
+
+        $query->setParameter('localidad', $loc);
+
+        $rutas = $query->getResult();
+
+        return $this->render('listado_tours/index.html.twig', [
+            'controller_name' => 'ListadoToursController',
+            'rutas' => $rutas,
+        ]);
+    }
 }
