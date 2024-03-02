@@ -70,6 +70,9 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Calendario Tours');
         yield MenuItem::linkToRoute('Calendario', 'fa fa-calendar', 'tourCalendar');
+
+        yield MenuItem::section('Guias');
+        yield MenuItem::linkToRoute('Valoracion', 'fa fa-calendar', 'app_grafico_guias');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu

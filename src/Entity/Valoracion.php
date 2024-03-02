@@ -6,7 +6,7 @@ use App\Repository\ValoracionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ValoracionRepository::class)]
-class Valoracion
+class Valoracion implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -77,5 +77,16 @@ class Valoracion
         $this->comentario = $comentario;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'codReserva' => $this->codReserva,
+            'notaGuia' => $this->notaGuia,
+            'notaRuta' => $this->notaRuta,
+            'comentario' => $this->comentario,
+        ];
     }
 }
