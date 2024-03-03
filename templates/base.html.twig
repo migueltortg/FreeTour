@@ -60,10 +60,6 @@
                                 {% if rol=="ROLE_ADMIN" %}
                                     <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Administración</a></li>
                                 {% endif %}
-                                {% if rol=="ROLE_GUIDE" %}
-                                    <li class="nav-item"><a class="nav-link navOpt" href="{{path('admin')}}">Calendario Tours</a></li>
-                                {% endif %}
-
                             {% endfor %}
                             <li class="nav-item"><a class="nav-link navOpt" href="{{path('logout')}}">Cerrar Sesión</a></li>
                         {% else %}

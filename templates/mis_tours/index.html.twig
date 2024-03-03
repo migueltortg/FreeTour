@@ -4,8 +4,100 @@
 
 {% block body %}
     <style>
-        main{
-            margin-top:8%;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 5em auto;
+            margin-top:9em;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff6600;
+        }
+
+        .reservaContainer {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffcc99;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservaContainer h3 {
+            margin: 0;
+            color: #333333;
+            font-size: 18px;
+        }
+
+        .reservaContainer h5 {
+            margin-top: 5px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .reservaContainer button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #ff6600;
+            border: none;
+            color: #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reservaContainer button:hover {
+            background-color: #ff8533;
+        }
+
+        .tourContainer {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffcc99;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tourContainer h3 {
+            margin: 0;
+            color: #333333;
+            font-size: 18px;
+        }
+
+        .tourContainer h5 {
+            margin-top: 5px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .tourContainer button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #ff6600;
+            border: none;
+            color: #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tourContainer button:hover {
+            background-color: #ff8533;
         }
     </style>
     <script>
@@ -156,17 +248,17 @@
         </div>
         <div>
             {% for tour in tourGuias %}
-                <div id="Tour{{tour.id}}">
+                <div id="Tour{{tour.id}}" class="tourContainer">
                     <h3>{{tour.codRuta.nombre}}</h3>
                     <h5>{{tour.FechaHora|date('d-m-Y H:i:s')}}</h5>
+                    <h5>TOUR GUIA</h5>
                     {% set fechaTour = tour.FechaHora|date("Y-m-d H:i:s") %}
                     {% set fecha30MinDespues = fechaTour|date_modify('+30 minutes')|date("Y-m-d H:i:s") %}
                     {% set fechaActual = "now"|date("Y-m-d H:i:s") %}
 
-                    <button onclick="pasarLista(this)">Pasar Lista</button>
                     {% if fechaActual >= fechaTour and fechaActual < fecha30MinDespues %}
                         <!-- Hacer algo si la fecha actual está dentro del rango -->
-                        <button>Pasar Lista</button>
+                        <button onclick="pasarLista(this)">Pasar Lista</button>
                     {% elseif fechaActual > fecha30MinDespues %}
                         <!-- Hacer algo si la fecha actual está fuera del rango -->
                         <button onclick="informe(this)">Informe</button>
@@ -176,9 +268,10 @@
         </div>
         <div>
             {% for reserva in reservas %}
-                <div id="{{reserva.id}}">
+                <div id="{{reserva.id}}" class="reservaContainer">
                     <h3>{{reserva.codTour.codRuta.nombre}}</h3>
                     <h5>{{reserva.codTour.FechaHora|date('d-m-Y H:i:s')}}</h5>
+                    <h5>{{reserva.asistentes}} asistentes</h5>
                     {% set fechaTour = reserva.codTour.FechaHora|date("Y-m-d H:i:s") %}
                     {% set fecha30MinDespues = fechaTour|date_modify('+30 minutes')|date("Y-m-d H:i:s") %}
                     {% set fechaActual = "now"|date("Y-m-d H:i:s") %}

@@ -13,7 +13,7 @@
 
             var dialogDiv = $("<div>");
             dialogDiv.append('<label for="numberInput">Número de Asistentes:</label>');
-            dialogDiv.append('<input type="number" id="numberInput">');
+            dialogDiv.append('<input type="number" id="numberInput" min="0">');
 
             dialogDiv.dialog({
                 modal: true,
@@ -62,15 +62,175 @@
 
         }
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            margin-top:5em;
+        }
+        .ruta-info {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            margin-bottom: 20px;
+            text-align: center;
+            border:2px solid orange;
+        }
+        .ruta-info h1 {
+            margin-top: 0;
+            color: #333;
+            border-bottom:2px solid orange;
+        }
+        .ruta-details {
+            display: flex; 
+            align-items: center; 
+            text-align: center;
+            margin-top: 30px; 
+        }
+        .ruta-details h4 {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+            margin-left: 20px; 
+        }
+        .ruta-info img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .tour-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 
+            text-align: center;
+        }
+
+        .img-container{
+            width:50%;
+        }
+
+        .desc-container {
+            align-self: flex-start; 
+        }
+
+        .tour-container{
+            width:100%;
+            border:2px solid orange;
+        }
+
+        .tour-container h2 {
+            margin-top: 0;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom:2px solid orange;
+        }
+
+        .tour-container h5 {
+            text-align:left;
+            margin-top:1%;
+            text-decoration: underline;
+        }
+
+        .tour-date {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .tour-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color:orange;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width:100%;
+        }
+        .tour-button:hover {
+            background-color: #0056b3;
+        }
+
+        .btnTour{
+            align-items:center;
+        }
+
+        .col-2 {
+            width: 12em;
+        }
+
+        .ui-dialog {
+            background-color: #fff;
+            border: 2px solid #ff8c00; 
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border:1px solid orange;
+        }
+
+        .ui-dialog-title {
+            color: #ff8c00; 
+        }
+
+        .ui-dialog-content label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .ui-dialog-content input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #ff8c00;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .ui-dialog-buttonpane button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .ui-dialog-buttonpane button:hover {
+            background-color: #ffa500;
+        }
+
+        .ui-dialog-titlebar {
+            display: none;
+        }
+    </style>
     <main>
-        <div>
+        <div class="ruta-info">
             <h1>{{ruta.nombre}}</h1>
-            <h4>{{ruta.descripcion | raw}}</h4>
-            <img src="{{ asset('fotos_rutas/' ~ ruta.foto) }}" alt="Imagen" width="20%" height="auto">
+            <div class="ruta-details">
+                <div class="img-container">
+                    <img src="{{ asset('fotos_rutas/' ~ ruta.foto) }}" alt="Imagen" >
+                </div>
+                <div class="desc-container">
+                    <h4>{{ruta.descripcion | raw}}</h4>
+                </div>
+            </div>
         </div>
-        <div>
-            <h3>Tours Disponibles</h3>
+        <div class="tour-container">
+            <h2>Tours Disponibles</h2>
             
             <div class="row">
             {% set previous_date = null %}
@@ -83,10 +243,10 @@
                     <div class="col"> 
                         <h5>{{ tour_date }}</h5>
                     </div>
-                    <div class="row">
+                    <div class="row" class="btnTour">
                 {% endif %}
                 <div class="col-2">
-                    <button onclick="reservar(event, {{user.id}}, '{{ tour.id}}')">{{ tour.FechaHora | date('d-m-Y H:i') }}</button>
+                    <button class="tour-button" onclick="reservar(event, {{user.id}}, '{{ tour.id}}')">{{ tour.FechaHora | date('d-m-Y H:i') }}</button>
                 </div>
                 {% set previous_date = tour_date %}
             {% endfor %}

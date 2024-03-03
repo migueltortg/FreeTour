@@ -9,6 +9,40 @@
         main{
             margin-top:5%;
         }
+
+        #selectLocalidadContainer {
+            display: flex;
+            align-items: center; /* Align items vertically in the center */
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-right: 10px; /* Add some space to the right of the label */
+            font-weight: bold;
+            color: #333;
+        }
+
+        select {
+            width:20%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #555;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+        }
+
+        #btnReserva{
+            background-color:orange !important;
+            color:white !important;
+        }
     </style>
     <script>
         function reservar(idRuta) {
@@ -46,7 +80,7 @@
         <div class="album py-5 bg-body-tertiary">
             
             <div class="container">
-            <div>
+            <div id="selectLocalidadContainer">
                 <label>Localidad: </label>
                 <select id="selectLocalidad">
                     <option value=""></option>
@@ -54,7 +88,7 @@
                     <option value="Granada">Granada</option>
                     <option value="Pegalajar">Pegalajar</option>
                 </select>
-            <div>
+            </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 
                 {% for ruta in rutas %}
@@ -65,7 +99,7 @@
                                 <p class="card-text">{{ruta.nombre}} <br> {{ruta.descripcion | raw}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" onclick="reservar({{ruta.id}})" class="btn btn-sm btn-outline-secondary">Reservar</button>
+                                        <button type="button" onclick="reservar({{ruta.id}})" class="btn btn-sm btn-outline-secondary" id="btnReserva">Reservar</button>
                                     </div>
                                     <small class="text-body-secondary">{{ruta.visitas[0].codLocalidad.codProvincia.nombre}}</small>
                                 </div>

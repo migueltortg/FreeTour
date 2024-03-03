@@ -1,7 +1,33 @@
 .sidebar{
-    background-color: #f4643c!important;
+    background-color: #ff6600 !important;
 }
 
 #menu-item-label{
+    color: white;
+}
+
+.logo-custom{
+    color: white;
+    font-size: 2em;
+}
+
+.menu-item-label{
+    color: white;
+}
+
+.menu-header-contents>span{
+    text-decoration: underline;
+    font-size: 1.3em;
+}
+
+#main-menu .menu .menu-item.active{
+    background-color: #ff8533 !important;
+} 
+
+#main-menu .menu .menu-item.active:not(.expanded) .menu-icon, #main-menu .menu .menu-item.active:not(.expanded) a {
+    color: white;
+}
+
+#main-menu .menu .menu-icon{
     color: white;
 }

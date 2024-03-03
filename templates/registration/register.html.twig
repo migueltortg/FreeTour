@@ -7,11 +7,81 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <style>
+    body {
+        overflow-y: hidden;
+        background-color: #db8836;
+    }
+
+    form {
+        width: 90%;
+        max-width: 400px; 
+        margin: 10em auto;
+        padding: 20px; 
+        border-radius: 10px; 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        background-color: #f9f9f9; 
+    }
+
+    h1 {
+        text-align: center; 
+        color: #ff7f00; 
+        font-weight: bold; 
+    }
+
+    label {
+        display: block; 
+        margin-bottom: 5px; 
+        color: #ff7f00; 
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="password"],
+    input[type="file"]{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px; 
+        border: 1px solid #ff7f00; 
+        border-radius: 5px;
+        color: #ff7f00; 
+    }
+
+    form button{
+        width: 100%; 
+        padding: 10px; 
+        margin-bottom: 15px; 
+        border: 1px solid #ff7f00;
+        border-radius: 5px;
+        color: #ff7f00; 
+    }
+
+    input[type="email"]:focus,
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="file"]:focus {
+        border: 1px solid #ff7f00; 
+        outline: none; 
+    }
+
+    .btn {
+        background-color: #ff7f00;
+        color: #fff; 
+        border: none; 
+        cursor: pointer; 
+    }
+
+    .btn:hover {
+        background-color: #ff9933;
+        color:white;
+    }
+    </style>
 
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
+    
+    <h1>Registro</h1>
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.nombre) }}
         {{ form_row(registrationForm.plainPassword, {
