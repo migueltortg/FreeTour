@@ -1,20 +1,28 @@
 $(function(){
 
     $("#crearRutaBtn").click(function(){
-        if(validar()){
-            crearRutaAPI(crearRutaJSON(),false);
+        if(validar()){//VALIDAMOS FORMULARIO
+            crearRutaAPI(crearRutaJSON(),false);//CREAMOS RUTA E INDICAMOS QUE NO QUEREMOS GENERAR TOURS
         }else{
             console.log("ERROR");
         }
     });
 
-    cargarVisitas();
+    cargarVisitas();//CARGAMOS LAS VISITAS
+
+    $("#crearRutaTourBtn").click(function(){
+        if(validar()){//VALIDAMOS FORMULARIO
+            crearRutaAPI(crearRutaJSON(),true);//CREAMOS RUTA E INDICAMOS QUE QUEREMOS GENERAR TOURS
+        }else{
+            console.log("ERROR");
+        }
+    });
 
     function cargarVisitas(){
-            $("#visitasDisponibles").children().each(function(){
+            $("#visitasDisponibles").children().each(function(){//VACIAMOS EL LISTADO DE VISITAS PARA CARGAR DE NUEVO
                 $(this).remove();
             });
-            $.get('/cargar_visitasAPI', { localidad: $("#selectLocalidad").val() })
+            $.get('/cargar_visitasAPI', { localidad: $("#selectLocalidad").val() })//PETICION AJAX PARA CAGAR LISTADO DE VISITAS
             .done(function(data) {
               crearVisitas(JSON.parse(data));
             })
@@ -23,34 +31,42 @@ $(function(){
             });
     }
 
-    $("#selectLocalidad").change(function(){
+    $("#selectLocalidad").change(function(){//CADA VEZ QUE CAMBIE EL SELECT SE RECARGAN LAS VISITAS
         cargarVisitas();
     });
 
-    function crearVisitas(array){
+    function crearVisitas(array){//CREAMOS EL HTML DE LAS VISITAS
         for(var i=0;i<array.length;i++){
-            var liElement = $('<li>', {
-                'class': 'visitaItem',
-                'style': 'border: 2px solid black;',
-                'id':array[i].id,
+            repite=true;
+            $("#visitasAsignadas li").each(function(){
+                if($(this).attr("id")==array[i].id){
+                    repite=false;
+                }
             });
-            var fotoUrl = "fotos_visitas/" + array[i].foto;
-            var imgElement = $('<img>', {
-                'src': fotoUrl,
-                'width': '80px',
-                'height': '80px',
-                'alt': array[i].nombre
-            }).appendTo(liElement);
-        
-            var h2Element = $('<h2>').text(array[i].nombre).appendTo(liElement);
-            var pElement = $("<p>").html((array[i].descripcion).replace("<div>","").replace("</div>","")).appendTo(liElement);
-
-        
-            liElement.appendTo('#visitasDisponibles');
+            if(repite){
+                var liElement = $('<li>', {
+                    'class': 'visitaItem',
+                    'style': 'border: 2px solid black;',
+                    'id':array[i].id,
+                });
+                var fotoUrl = "fotos_visitas/" + array[i].foto;
+                var imgElement = $('<img>', {
+                    'src': fotoUrl,
+                    'width': '80px',
+                    'height': '80px',
+                    'alt': array[i].nombre
+                }).appendTo(liElement);
+            
+                var h2Element = $('<h2>').text(array[i].nombre).appendTo(liElement);
+                var pElement = $("<p>").html((array[i].descripcion).replace("<div>","").replace("</div>","")).appendTo(liElement);
+    
+            
+                liElement.appendTo('#visitasDisponibles');
+            }
         }
     }
 
-    function getVisitas(){
+    function getVisitas(){//RECOGEMOS LAS ID DE LAS VISITAS QUE SE HAN ASIGNADO A LA RUTA
         var visitas=[];
         $("#visitasAsignadas").children().each(function(){
             visitas.push($(this).attr("id"));
@@ -58,7 +74,7 @@ $(function(){
         return visitas;
     }
 
-    function crearRutaJSON(){
+    function crearRutaJSON(){//CREAMOS EL OBJETO RUTA 
         var ruta = {
             titulo: $("#inputTitulo").val(),
             descripcion: $("#textarea").val(),
@@ -72,7 +88,7 @@ $(function(){
         return ruta;
     }
 
-    function getProgramacion(){
+    function getProgramacion(){//RECOGEMOS TODOS LOS DATOS NECESARIOS PARA FORMAR EL JSON DE PROGRAMACION
         var programacion=[];
         $("#horarios tbody").children().each(function(){
             let dia = {
@@ -88,11 +104,9 @@ $(function(){
     }
 
 
-    $("#crearRutaTourBtn").click(function(){
-        crearRutaAPI(crearRutaJSON(),true);
-    });
+    
 
-    function crearRutaAPI(json,tour) {
+    function crearRutaAPI(json,tour) {//API PARA CREAR RUTA
         var jsonData = JSON.stringify(json);
         
         var file = $('input[type="file"][id^="images-"]')[0].files[0];
@@ -109,7 +123,7 @@ $(function(){
             data: formData,
             processData: false,
             contentType: false,
-            success: function(data) {
+            success: function(data) {//SI SE CREA LA RUTA MOSTRAMOS QUE TODO HA IDO BIEN
                 console.log(data);
                 $("<p>").text("Ruta Creada").dialog({
                     modal:true,
@@ -130,22 +144,22 @@ $(function(){
     function validar(){
         var validado=true;
 
-        if(!comprobarTab1()){
+        if(!comprobarTab1()){//VALIDACION DEL PRIMER TAB
             validado=false;
         }
 
-        if(!comprobarTab2()){
+        if(!comprobarTab2()){//VALIDACION DEL SEGUNDO TAB
             validado=false;
         }
 
-        if(!comprobarTab3()){
+        if(!comprobarTab3()){//VALIDACION DEL TERCER TAB
             validado=false;
         }
 
-        return validado;
+        return validado;//SI NINGUN TAB ES ERRONEO DEVUELVE TRUE
     }
 
-    function comprobarTab1(){
+    function comprobarTab1(){//REVISAMOS Y VALIDAMOS EL PRIMER TAB
         var validado=true;
 
         $('#tabs-1 input,textarea').each(function(){
@@ -184,7 +198,7 @@ $(function(){
         return validado;
     }
 
-    function comprobarTab2(){
+    function comprobarTab2(){//REVISAMOS Y VALIDAMOS EL SEGUNDO TAB
         var validado=true;
 
         if($("#visitasAsignadas").children().length>0){
@@ -197,7 +211,7 @@ $(function(){
         return validado;
     }
 
-    function comprobarTab3(){
+    function comprobarTab3(){//REVISAMOS Y VALIDAMOS EL TERCER TAB
         var validado=true;
 
         if($("#horarios").children().children(1).length>1){
@@ -287,32 +301,6 @@ $(function(){
         fila.remove();
     }
 
-    function editarFila(ev, fila) {
-        ev.preventDefault();
-    
-        var celdas = fila.find('td');
-        
-        celdas.each(function(index) {
-            if (index === celdas.length - 1) { 
-                $(this).html('<button class="guardarBTN">Guardar</button>');
-            } else {
-                var texto = $(this).text();
-                var input = $('<input>').val(texto);
-                $(this).html(input);
-            }
-        });
-    
-        fila.find('.guardarBTN').click(function() {
-            fila.find('td').each(function(index) {
-                if (index !== celdas.length - 1) { 
-                    var valorInput = $(this).find('input').val(); 
-                    $(this).text(valorInput);
-                }
-            });
-            
-            fila.find('td:last-child').html("<button class='editarBTN'>Editar</button><button class='eliminarBTN'>Eliminar</button>");
-        });
-    }
 
     function agregarFila() {
         var rangoFecha = $("#fechaPr").val();
@@ -320,16 +308,13 @@ $(function(){
         var hora = $("#hora").val();
         var persona = $("#guias").val();
     
-        var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td><td><button class='editarBTN'>Editar</button><button class='eliminarBTN'>Eliminar</button></td></tr>";
+        var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td><td><button class='eliminarBTN'>Eliminar</button></td></tr>";
         $("#horarios tbody").append(fila);
 
         $("#horarios tbody tr:last-child .eliminarBTN").click(function(event) {
             eliminarFila(event, $(this).closest("tr"));
         });
 
-        $("#horarios tbody tr:last-child .editarBTN").click(function(event) {
-            editarFila(event, $(this).closest("tr"));
-        });
     }
   
     function obtenerDiasSeleccionados() {

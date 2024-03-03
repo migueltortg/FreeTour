@@ -99,6 +99,7 @@
                                 <p class="card-text">{{ruta.nombre}} <br> {{ruta.descripcion | raw}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
+                                    
                                         <button type="button" onclick="reservar({{ruta.id}})" class="btn btn-sm btn-outline-secondary" id="btnReserva">Reservar</button>
                                     </div>
                                     <small class="text-body-secondary">{{ruta.visitas[0].codLocalidad.codProvincia.nombre}}</small>
