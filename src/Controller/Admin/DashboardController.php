@@ -18,7 +18,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+
+use App\Repository\UserRepository; 
 
 
 class DashboardController extends AbstractDashboardController
@@ -28,21 +31,6 @@ class DashboardController extends AbstractDashboardController
     {
 
         return $this->render('admin/index.html.twig');
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard eredirect to different pages depending on the usr
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        //return $this->render('admin/index.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -90,5 +78,14 @@ class DashboardController extends AbstractDashboardController
     public function configureAssets(): Assets{
         return Assets::new()
             ->addCssFile('css/easyAdmin.css');
+    }
+
+    #[Route('/modificarRuta', name: 'modificarRuta')]
+    public function editarRuta(EntityManagerInterface $entityManager,UserRepository $userRepository): Response
+    {
+        return $this->render('modificar_ruta/index.html.twig', [
+            'localidades' => $entityManager->getRepository(Localidad::class)->findAll(),
+            'guias' => $entityManager->getRepository(User::class)->findByRoles(['ROLE_GUIDE'])
+        ]);
     }
 }

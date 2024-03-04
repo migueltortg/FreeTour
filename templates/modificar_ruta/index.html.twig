@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block title %}Crear Ruta{% endblock %}
+{% block title %}Editar Ruta{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{asset('css/image-uploader.min.css')}}">
@@ -28,13 +28,13 @@
     <script src="https://kit.fontawesome.com/91464fdedc.js" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="{{asset('css/crearRuta.css')}}">
-    <script src="{{asset('js/crearRuta.js')}}"></script>
+    <script src="{{asset('js/editRuta.js')}}"></script>
 {% endblock %}
 
 {% block main %}
     <div id="modal">
         <div id="main">
-            <h1>Crear Ruta</h1>
+            <h1>Editar Ruta</h1>
                 <div id="tabs">
                     <ul>
                     <li id="tab-1-li"><a href="#tabs-1">Información</a></li>
@@ -139,7 +139,7 @@
         </div>
     </div>
     <div>
-      <button id="crearRutaBtn">Crear Ruta</button>
-      <button id="crearRutaTourBtn">Crear Ruta y Generar Tours</button>
+      <button id="confirmarEdit">Confirmar</button>
+      <button id="cancelarEdit">Cancelar</button>
     </div>
 {% endblock %}

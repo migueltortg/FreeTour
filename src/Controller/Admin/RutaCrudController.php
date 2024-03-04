@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 
 
 class RutaCrudController extends AbstractCrudController
@@ -36,7 +37,15 @@ class RutaCrudController extends AbstractCrudController
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
                 return $action->linkToRoute('crearRuta', []);
             })
-            ->add(Crud::PAGE_INDEX, Action::new('prorrogarRuta', 'Prorrogar Ruta')->linkToRoute('prorrogarRuta'));
+            ->update(Crud::PAGE_INDEX, Action::EDIT,function(Action $action){
+                return $action->linkToCrudAction('editRedirect');
+            });
     }
 
+    public function editRedirect(AdminContext $context){
+        $entityInstance = $context->getEntity()->getInstance();
+        $id= $entityInstance->getId();
+
+        return $this->redirectToRoute('modificarRuta',['id' => $id]);
+    }
 }

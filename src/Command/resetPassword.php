@@ -17,10 +17,12 @@ class resetPassword extends Command
 
     public function construct(EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher)
     {
-        $this->$entityManager=$entityManager;
-        $this->$userPasswordHasher=$userPasswordHasher;
-
+        
         parent::construct();
+        
+        $this->entityManager=$entityManager;
+        $this->userPasswordHasher=$userPasswordHasher;
+
     }
 
     protected function configure()

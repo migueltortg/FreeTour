@@ -30,26 +30,31 @@ class ReservaAPIController extends AbstractController
         $result = $query->getOneOrNullResult();
         $genteApuntada = $result['totalGente'];
 
-        if($_POST['numAsistentes']<= ($aforo-$genteApuntada)){
-            $fechaReservaString = substr($_POST['fechaReserva'], 0, strpos($_POST['fechaReserva'], 'GMT'));
-            $fechaReserva = new DateTime($fechaReservaString);
+        if($_POST['numAsistentes']>0){
+            if($_POST['numAsistentes']<= ($aforo-$genteApuntada)){
+                $fechaReservaString = substr($_POST['fechaReserva'], 0, strpos($_POST['fechaReserva'], 'GMT'));
+                $fechaReserva = new DateTime($fechaReservaString);
+        
+                $user=$entityManager->getRepository(User::class)->find($_POST['idUser']);
     
-            $user=$entityManager->getRepository(User::class)->find($_POST['idUser']);
-
-            $reserva=new UserTour();
-            $reserva->setCodUser($user);
-            $reserva->setCodTour($tour);
-            $reserva->setFechaReserva($fechaReserva);
-            $reserva->setNumGenteReserva($_POST['numAsistentes']);
+                $reserva=new UserTour();
+                $reserva->setCodUser($user);
+                $reserva->setCodTour($tour);
+                $reserva->setFechaReserva($fechaReserva);
+                $reserva->setNumGenteReserva($_POST['numAsistentes']);
+        
+                $entityManager->persist($reserva);
+                $entityManager->flush();
+        
+                $email->sendEmail($user->getEmail(),$tour->getCodRuta()->getNombre(),$tour->getFechaHora()->format('d/m/Y H:i'));
     
-            $entityManager->persist($reserva);
-            $entityManager->flush();
-    
-            $email->sendEmail($user->getEmail(),$tour->getCodRuta()->getNombre(),$tour->getFechaHora()->format('d/m/Y H:i'));
-
-            return new Response("RESERVA HECHA");
+                return new Response("RESERVA HECHA");
+            }else{
+                return new Response("AFORO COMPLETO");
+            }
         }else{
-            return new Response("AFORO COMPLETO");
+            return new Response("Numero asistentes negativo");
         }
+        
     }
 }
